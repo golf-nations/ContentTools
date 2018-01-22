@@ -39,6 +39,7 @@ module.exports = (grunt) ->
                         'src/scripts/history.coffee'
                         'src/scripts/styles.coffee'
                         'src/scripts/tools.coffee'
+                        'src/scripts/time-tool.coffee'
                     ]
 
             sandbox:
@@ -85,7 +86,7 @@ module.exports = (grunt) ->
 
             build:
                 files:
-                    'build/content-tools.min.css':
+                    '/Users/marvin/Sites/portal2/wp-content/plugins/my-clubhouse-pages/page_builder/assets/ContentTools/content-tools.min.css':
                         'src/styles/content-tools.scss'
 
             sandbox:
@@ -98,8 +99,8 @@ module.exports = (grunt) ->
 
             build:
                 files:
-                    'build/content-tools.min.css':
-                        'build/content-tools.min.css'
+                    '/Users/marvin/Sites/portal2/wp-content/plugins/my-clubhouse-pages/page_builder/assets/ContentTools/content-tools.min.css':
+                        '/Users/marvin/Sites/portal2/wp-content/plugins/my-clubhouse-pages/page_builder/assets/ContentTools/content-tools.min.css'
 
         uglify:
             options:
@@ -107,8 +108,8 @@ module.exports = (grunt) ->
                 mangle: true
 
             build:
-                src: 'build/content-tools.js'
-                dest: 'build/content-tools.min.js'
+                src: '/Users/marvin/Sites/portal2/wp-content/plugins/my-clubhouse-pages/page_builder/assets/ContentTools/content-tools.js'
+                dest: '/Users/marvin/Sites/portal2/wp-content/plugins/my-clubhouse-pages/page_builder/assets/ContentTools/content-tools.min.js'
 
         concat:
             build:
@@ -116,14 +117,14 @@ module.exports = (grunt) ->
                     'external/scripts/content-edit.js'
                     'src/tmp/content-tools.js'
                 ]
-                dest: 'build/content-tools.js'
+                dest: '/Users/marvin/Sites/portal2/wp-content/plugins/my-clubhouse-pages/page_builder/assets/ContentTools/content-tools.js'
 
         clean:
             build: ['src/tmp']
 
         jasmine:
             build:
-                src: ['build/content-tools.js']
+                src: ['/Users/marvin/Sites/portal2/wp-content/plugins/my-clubhouse-pages/page_builder/assets/ContentTools/content-tools.js']
                 options:
                     specs: 'spec/content-tools-spec.js'
                     helpers: 'spec/spec-helper.js'

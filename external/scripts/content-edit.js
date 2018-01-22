@@ -3380,7 +3380,53 @@
 
   ContentEdit.TagNames.get().register(ContentEdit.Static, 'static');
 
-  ContentEdit.Text = (function(_super) {
+  ContentEdit.SlimImage = (function(_super) {
+      __extends(SlimImage, _super);
+
+      function SlimImage(tagName, attributes, content) {
+          SlimImage.__super__.constructor.call(this, tagName, attributes);
+		  this._content = content;
+      }
+
+      SlimImage.prototype.mount = function() {
+        var name, value, _ref;
+        this._domElement = document.createElement('div');
+        this._domElement.setAttribute('class', this._attributes.class);
+        this._domElement.setAttribute('data-size', this._attributes.width+','+this._attributes.height);
+        this._domElement.innerHTML = this._content;
+        
+        if (typeof(Slim) !== 'undefined') {
+	        cropper = new Slim(this._domElement, {
+	          push: true,
+              download: false,
+              remove: true
+            });
+        }
+
+        return SlimImage.__super__.mount.call(this);
+    };
+    
+    SlimImage.prototype.html = function(indent) {
+      if (indent == null) {
+        indent = '';
+      }
+      if (HTMLString.Tag.SELF_CLOSING[this._tagName]) {
+        return "" + indent + "<" + this._tagName + (this._attributesToString()) + ">";
+      }
+      return ("" + indent + "<" + this._tagName + (this._attributesToString()) + ">") + ("" + this._content) + ("" + indent + "</" + this._tagName + ">");
+    };
+    
+    SlimImage.fromDOMElement = function(domElement) {
+      return new this(domElement.tagName, this.getDOMElementAttributes(domElement), domElement.innerHTML);
+    };
+    
+    return SlimImage;
+
+  })(ContentEdit.Element);
+
+  ContentEdit.TagNames.get().register(ContentEdit.SlimImage, 'div');
+
+    ContentEdit.Text = (function(_super) {
     __extends(Text, _super);
 
     function Text(tagName, attributes, content) {

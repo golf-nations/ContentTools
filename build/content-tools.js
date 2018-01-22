@@ -5538,7 +5538,7 @@
 }).call(this);
 
 (function() {
-  var AttributeUI, ContentTools, CropMarksUI, StyleUI, exports, _EditorApp,
+  var AttributeUI, ContentTools, CropMarksUI, StyleUI, TimeTool, exports, _EditorApp,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -10699,5 +10699,51 @@
     return Remove;
 
   })(ContentTools.Tool);
+
+  TimeTool = (function(_super) {
+    __extends(TimeTool, _super);
+
+    function TimeTool() {
+      return TimeTool.__super__.constructor.apply(this, arguments);
+    }
+
+    ContentTools.ToolShelf.stow(TimeTool, 'time');
+
+    TimeTool.label = 'Time';
+
+    TimeTool.icon = 'time';
+
+    TimeTool.tagName = 'time';
+
+    TimeTool.canApply = function(element, selection) {
+      return element.content;
+    };
+
+    TimeTool.apply = function(element, selection, callback) {
+      element.storeState();
+      this._galleryWindow = window.wp.media();
+      this._galleryWindow.on('select', (function(_this) {
+        return function(ev) {
+          var cursor, image, selectedImage, tail, tip;
+          selectedImage = _this._galleryWindow.state().get('selection').first().toJSON();
+          cursor = selection.get()[0] + 1;
+          tip = element.content.substring(0, selection.get()[0]);
+          tail = element.content.substring(selection.get()[1]);
+          image = new HTMLString.String('<img src="' + selectedImage.url + '" />', element.content.preserveWhitespace());
+          element.content = tip.concat(image, tail);
+          element.updateInnerHTML();
+          element.taint();
+          selection.set(cursor, cursor);
+          return element.selection(selection);
+        };
+      })(this));
+      return this._galleryWindow.open();
+    };
+
+    return TimeTool;
+
+  })(ContentTools.Tools.Unindent);
+
+  ContentTools.DEFAULT_TOOLS[0].push('time');
 
 }).call(this);
